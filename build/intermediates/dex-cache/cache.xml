@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="C:\Users\Allen Sanford\AndroidStudioProjects\TheHeatIsOn\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0-0d2079277ca7f2e9d0d21e0c0f7c1e7c82ff7b56.jar"
+        jar="C:\adt-bundle-windows-x86_64\adt-bundle-windows-x86_64-20140702\sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156"/>
+
+</pre-dex-items>

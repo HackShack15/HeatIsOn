@@ -1,0 +1,118 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:background="#ff953c13"
+    android:id="@+id/rel_layout">
+
+    <TextView android:text="The Heat is On!" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/head"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold|italic"
+        android:textIsSelectable="true"
+        android:textSize="40dp"
+        android:textColor="@android:color/background_dark" />
+
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:id="@+id/btnBluetooth"
+        android:layout_gravity="center_horizontal"
+        android:src="@android:drawable/stat_sys_data_bluetooth"
+        android:tint="@android:color/background_dark"
+        android:theme="@android:style/Holo.ButtonBar"
+        android:layout_toStartOf="@+id/btnTemp"
+        android:layout_marginRight="22dp"
+        android:layout_alignBottom="@+id/Power"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Up"
+        android:id="@+id/btnUp"
+        android:layout_gravity="center_horizontal"
+        android:longClickable="false"
+        android:textColor="#ff000000"
+        android:layout_marginTop="31dp"
+        android:layout_toEndOf="@+id/goalTempLabel"
+        android:layout_below="@+id/head"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Down"
+        android:id="@+id/btnDown"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#ff000000"
+        android:layout_below="@+id/btnGoal"
+        android:layout_alignLeft="@+id/btnBluetooth"
+        android:layout_alignStart="@+id/btnBluetooth" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="00"
+        android:id="@+id/btnGoal"
+        android:layout_toStartOf="@+id/btnBluetooth"
+        android:clickable="false"
+        android:layout_above="@+id/btnBluetooth"
+        android:layout_alignLeft="@+id/goalTempLabel"
+        android:layout_alignStart="@+id/goalTempLabel" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Goal Temperature:"
+        android:id="@+id/goalTempLabel"
+        android:layout_above="@+id/btnTemp"
+        android:layout_alignLeft="@+id/head"
+        android:clickable="false"
+        android:layout_alignStart="@+id/head"
+        android:layout_toLeftOf="@+id/btnDown"
+        android:layout_toStartOf="@+id/btnDown"
+        android:gravity="center_vertical|center_horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="00"
+        android:id="@+id/btnTemp"
+        android:layout_above="@+id/btnBluetooth"
+        android:layout_alignRight="@+id/currentTemp"
+        android:layout_alignEnd="@+id/currentTemp"
+        android:layout_alignLeft="@+id/currentTemp"
+        android:layout_alignStart="@+id/currentTemp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Current Temp"
+        android:id="@+id/currentTemp"
+        android:layout_toEndOf="@+id/btnUp"
+        android:layout_above="@+id/btnTemp"
+        android:layout_toRightOf="@+id/btnUp" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Power"
+        android:id="@+id/Power"
+        android:checked="true"
+        android:textColor="#ff000000"
+        android:clickable="true"
+        android:enabled="true"
+        android:layout_below="@+id/btnUp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
+
+</RelativeLayout>
