@@ -1,0 +1,127 @@
+//Control code for Arduino portion of this project
+//Some code borrowed from here:https://learn.adafruit.com/tmp36-temperature-sensor/using-a-temp-sensor
+//More specifically, all the temp calculation stuff. Less code borrowing than formula borrowing
+//Everything else written by Kevin S Rushlow, Liscensed under Creative Commons 4.0 Attribution-Share Alike - http://creativecommons.org/licenses/by-sa/4.0/
+#define fanPin 25 //Pin for fan control, digital 25
+#define ledpin 13 //ledPin, for diagnostic purposes
+#include <SoftwareSerial.h> //to run Bluetooth
+
+SoftwareSerial Bluetooth(50,51); //RX TX
+
+int BluetoothData; //Data recieved via Bluetooth
+int tempData = 14; //Temp sensor on Analog 14; out of range of sheild
+int goalC= 30;     //initial goal set at 30 Celcius
+int goalF = 85;      //initial goal is set to 85 farenheit
+char mode = 'F';     //America. So Farenheit by default
+int power = 1; //On or off
+
+void setup(){
+  pinMode(fanPin, OUTPUT);
+  Serial.begin(9600);
+  Serial1.begin(9600);
+  Bluetooth.begin(9600);
+  Bluetooth.println("System is now on");
+  pinMode(ledpin,OUTPUT);
+}
+
+void loop(){
+  int reading = analogRead(tempData);
+  float voltage = reading *5.0;
+  voltage/= 1024.0;
+  Serial.print(voltage); Serial.println(" volts");
+  // now print out the temperature
+ float temperatureC = (voltage - 0.5) * 100 ;  //converting from 10 mv per degree wit 500 mV offset
+                                               //to degrees ((voltage - 500mV) times 100)
+ Serial.print(temperatureC); Serial.println(" degrees C");
+ 
+ // now convert to Fahrenheit
+ float temperatureF = (temperatureC * 9.0 / 5.0) + 32.0;
+ Serial.print(temperatureF); Serial.println(" degrees F");
+ int printTemp = temperatureF - 5; //-5 not in original formula, modified because of power issues.
+ byte shortTemp = (byte) printTemp;
+ Bluetooth.write(shortTemp); // write degree F to Bluetooth as a byte
+ Serial.println(shortTemp);
+ 
+ getInputs(); //check for new inputs
+
+ Serial.print(goalF); Serial.println(" goal F");
+ //byte sendF = (byte) goalF;
+ Serial.print(goalC); Serial.println(" goal C");
+ 
+ setTemp(temperatureC, printTemp); //sets temp based on goal
+  delay(500);   
+}
+
+int getInputs(){
+  if(Bluetooth.available()){
+    BluetoothData = Bluetooth.read();
+    //BluetoothData=Serial.read();
+    if(BluetoothData=='3'){
+      goalC= 30;     
+      goalF = 85;
+      power = power * -1;
+    }
+   if(power ==1 ){ 
+    if(BluetoothData !=0){
+    switch(BluetoothData){
+      //User increased temp
+      case '0':
+        if(mode=='F'){
+         goalF= goalF +1;
+        }
+        else if(mode=='C'){
+        goalC= goalC +1;
+        }
+        break;
+       //User lowered goal temp
+       case '1':
+         if(mode=='F'){
+           goalF= goalF-1;
+         }
+         else if(mode=='C'){
+          goalC= goalC -1;
+          }
+        break;
+        
+        //Toggle Mode
+        case '2':
+          if(mode=='F'){
+           mode= 'C';
+         }
+         else if(mode=='C'){
+           mode = 'F';
+         }
+         break;
+         
+  }
+    }
+    }
+  }
+  }
+  
+void setTemp(int tempC, int tempF){
+  if(power ==1){
+  if(mode == 'F'){
+    if(tempF<goalF){
+      digitalWrite(fanPin, HIGH);
+    }
+    else{
+      digitalWrite(fanPin,LOW);
+    }
+  }
+  else{
+    if(tempC<goalC){
+      digitalWrite(fanPin, HIGH);
+    }
+    else{
+      digitalWrite(fanPin,LOW);
+    }
+  }
+  }
+  else{
+    digitalWrite(fanPin, LOW);
+  }
+}
+
+
+
